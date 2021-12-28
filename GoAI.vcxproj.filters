@@ -44,10 +44,16 @@
     <ClInclude Include="src\neuralnetwork\convolution\ConvStructureCLS.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\imageLoading\ImageHandlingCLS.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\imageLoading\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\imageLoading\LoadImageCLS.h">
+    <ClInclude Include="src\imageLoading\stb_image_write.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helperFunctions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

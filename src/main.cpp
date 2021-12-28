@@ -4,76 +4,63 @@
 #define STRINGIFY(x) #x
 #define EXPAND(x) STRINGIFY(x)
 
-#include "neuralnetwork/convolution/CalcLayerCLS.hpp"
-#include "neuralnetwork/convolution/CalcPoolsCLS.hpp"
-#include "neuralnetwork/convolution/ActivationLayerCLS.hpp"
 #include "neuralnetwork/convolution/ConvStructureCLS.hpp"
 
-#include "imageLoading/LoadImageCLS.h"
+#include "imageLoading/ImageHandlingCLS.hpp"
+
+#include "helperFunctions.hpp"
 
 #include <iostream>
 #include <iomanip>
 #include <memory>
 #include <string>
+#include <ctime>
+#include <sstream>
 
-float tempCalcScore(std::vector<std::vector<float>> data);
-
-int main()
+void main()
 {
-    // get prjPath and remove the string quotes
-    std::string prjPath = EXPAND(GOAIPRJPATH);
-    prjPath.erase(0, 1); prjPath.erase(prjPath.size() - 2);
+    // initial setup
+    // -----------------------------------------------------------------------
+    initRandomnessSeed();
 
-    std::string relativePath = "src\\inputData\\btimg-02_5_640_x_480.png";
+    std::string prjPath = getProjectPath();
 
-    std::vector<std::vector<float>> data2;
-    LoadImageCLS loadImage;
-    loadImage.loadImageTo2dVector((prjPath + relativePath).c_str(), data2);
+    std::string relativeInputPath = "src\\neuralnetwork\\inputData\\btimg-02_5_640_x_480.png";
+    std::string relativeOutputPath = "src\\neuralnetwork\\outputData\\btimg-conv-1-layer";
 
+    // load data
+    // -----------------------------------------------------------------------
+    std::vector<std::vector<float>> data;
+    ImageHandlingCLS imageHandler;
+    imageHandler.loadImageTo2dVector((prjPath + relativeInputPath).c_str(), data);
+
+    // create conv layer structure
+    // -----------------------------------------------------------------------
     
-    std::vector<std::vector<float>> data =
-    {
-        {1, 0, 0, 1, 1, 1, 0, 0, 1},
-        {1, 0, 0, 1, 1, 1, 0, 0, 1},
-        {1, 0, 1, 1, 0, 1, 0, 0, 1},
-        {1, 0, 1, 1, 0, 1, 0, 0, 1},
-        {1, 1, 1, 1, 0, 1, 0, 0, 1},
-        {1, 1, 0, 1, 1, 1, 1, 0, 1},
-        {1, 0, 0, 1, 1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 1, 1, 0, 1, 1},
-        {1, 0, 0, 0, 1, 1, 0, 1, 1},
-    };
-
-    std::vector<std::vector<float>> CalcFilter =
-    {
-        {-1, -1, -1},
-        {-1, 8, -1},
-        {-1, -1, -1},
-    };
-
-    /*
-    // instantiate the convolutional layer structure
+    // instantiate the convolutional layer structure class
     ConvStructureCLS convStructure(ConvStructureSettings{false});
+    
+    // first conv stages
+    convStructure.addStructureElement(CalcLayerCLS());
+    convStructure.addStructureElement(CalcLayerCLS());
 
-    // instantiate the first layer in the structure
-    CalcLayerSettings layer1Settings; //layer1Settings.initialFilter = CalcFilter;
-    convStructure.addStructureElement(CalcLayerCLS(layer1Settings));
-
-    // instantiate activation layers
+    // first activation stages
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::RELU} });
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::SIGMOID} });
 
-    // instantiate pooling layer
+    // first pooling stage
     CalcPoolsSettings pool1Settings{};
     int stride[2]{ 3, 3 };
     pool1Settings.set2Dstride(stride);
-    pool1Settings.functionType = PoolFunctionTypes::MAX;
     convStructure.addStructureElement(CalcPoolsCLS{ pool1Settings });
 
-    // run the convolutional structure once
-    convStructure.runConvStructure(data);
+    // running the neural network
+    // -----------------------------------------------------------------------
 
-    for (int i = 0; i < 2500; i++)
+    // run the convolutional structure once
+    data = convStructure.runConvStructure(data);
+
+    for (int i = 0; i < 3; i++)
     {
         std::cout << "==============================================" << std::endl;
         std::cout << "GENERATION : " << i + 1 << std::endl;
@@ -82,20 +69,6 @@ int main()
 
         std::cout << tempCalcScore(convStructure.runConvStructure(data)) << std::endl;
     }
-    convStructure.printFilters("final filter"); */
-    return 1;
+    imageHandler.saveImageFrom2dVector((prjPath + relativeOutputPath + getCurrentTimeString() + ".png").c_str(), data);
+    return;
 }
-
-
-float tempCalcScore(std::vector<std::vector<float>> data) {
-    float sum = 0;
-    for (size_t i = 0; i < data.size(); i++)
-    {
-        for (size_t j = 0; j < data[0].size(); j++)
-        {
-            sum += data[i][j];
-        }
-    }
-    return sum;
-}
-

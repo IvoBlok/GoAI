@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <random>
+#include <ctime>
 
 static float randValue0to1() {
 	return (float)(std::rand()) / (float)RAND_MAX;

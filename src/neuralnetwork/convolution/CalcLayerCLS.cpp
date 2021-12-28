@@ -92,10 +92,11 @@ void CalcLayerCLS::mutateFilter(float severity) {
 		{
 			// Proportional component
 			//settings.initialFilter[i][j] *= (float)((-0.5 + randValue0to1()) * severity + 1);
-			settings.initialFilter[i][j] *= (float)(1 + d(gen) * severity);
+			//settings.initialFilter[i][j] *= (float)(1 + d(gen) * severity);
 			// Independent component
-			settings.initialFilter[i][j] += ((randValue0to1() - 0.5) * 2) * severity;
+			//settings.initialFilter[i][j] += ((randValue0to1() - 0.5) * 2) * severity;
 			
+			settings.initialFilter[i][j] = randValue0to1();
 			// keeping the value within intended range
 			if (std::abs(settings.initialFilter[i][j]) > 1) {
 				(settings.initialFilter[i][j] > 0) ? settings.initialFilter[i][j] = 1 : settings.initialFilter[i][j] = -1;

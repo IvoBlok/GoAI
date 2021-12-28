@@ -1,5 +1,7 @@
 #include "CalcPoolsCLS.hpp"
 
+#include <cmath>
+
 std::vector<std::vector<float>> CalcPoolsCLS::run(
 	std::vector<std::vector<float>>& data,
 	const int stride[2],
@@ -7,11 +9,7 @@ std::vector<std::vector<float>> CalcPoolsCLS::run(
 ) {
 	//in the 2d data structure, the data[0] gives the first row, data[0][n] gives the n - 1 value in the first row
 
-	// for now the stride can only by a full divisor of the data size
-	assert(data.size() % stride[0] == 0);
-	assert(data[0].size() % stride[1] == 0);
-
-	std::vector<std::vector<float>> result(data.size() / stride[0], std::vector<float>(data[0].size() / stride[1], 0));
+	std::vector<std::vector<float>> result(std::ceil(data.size() / stride[0]), std::vector<float>(std::ceil(data[0].size() / stride[1]), 0));
 
 	for (size_t i = 0; i < data.size() / stride[0]; i++)
 	{
@@ -23,7 +21,12 @@ std::vector<std::vector<float>> CalcPoolsCLS::run(
 			{
 				for (size_t q = 0; q < stride[1]; q++)
 				{
-					values[k][q] = data[i * stride[0] + k][j * stride[1] + q];
+					if (i * stride[0] + k >= data.size() || j * stride[1] + q >= data[0].size()) {
+						values[k][q] = NULL;
+					}
+					else {
+						values[k][q] = data[i * stride[0] + k][j * stride[1] + q];
+					}
 				}
 			}
 			if (functionType == PoolFunctionTypes::AVG) {
@@ -33,7 +36,7 @@ std::vector<std::vector<float>> CalcPoolsCLS::run(
 				result[i][j] = this->poolFuncMax(values);
 			}
 			else {
-				result[i][j] = 0;
+				result[i][j] = NULL;
 			}
 		}
 	}
@@ -42,14 +45,19 @@ std::vector<std::vector<float>> CalcPoolsCLS::run(
 
 float CalcPoolsCLS::poolFuncAvg(std::vector<std::vector<float>>& values) {
 	float sum = 0;
+	uint16_t count = 0;
 	for (size_t i = 0; i < values.size(); i++)
 	{
 		for (size_t j = 0; j < values[0].size(); j++)
 		{
-			sum += values[i][j];
+			if (values[i][j] != NULL)
+			{
+				count++;
+				sum += values[i][j];
+			}
 		}
 	}
-	return sum / (values.size() * values[0].size());
+	return sum / count;
 }
 
 float CalcPoolsCLS::poolFuncMax(std::vector<std::vector<float>>& values) {
@@ -58,7 +66,7 @@ float CalcPoolsCLS::poolFuncMax(std::vector<std::vector<float>>& values) {
 	{
 		for (size_t j = 0; j < values[0].size(); j++)
 		{
-			if (values[i][j] > max) {
+			if (values[i][j] != NULL && values[i][j] > max) {
 				max = values[i][j];
 			}
 		}
