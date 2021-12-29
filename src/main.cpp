@@ -49,10 +49,8 @@ int main()
 
     
     // first activation stages
-    /*
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::RELU} });
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::SIGMOID} });
-    */
     
     // first pooling stage
     CalcPoolsSettings pool1Settings{};
@@ -60,14 +58,10 @@ int main()
     pool1Settings.setStride(stride);
     convStructure.addStructureElement(CalcPoolsCLS{ pool1Settings });
     
-
+    convStructure.printStructure();
     // running the neural network
     // -----------------------------------------------------------------------
-
-    // run the convolutional structure once
-    
     data = convStructure.runConvStructure(data);
-    convStructure.printFilters();
 
     for (int i = 0; i < 0; i++)
     {

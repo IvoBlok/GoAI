@@ -30,25 +30,28 @@ class ConvStructureCLS
 {
 private:
 	// sadly enough we need to define a vector for every conv layer type, because c++ is being stubborn
-	std::vector<CalcLayerCLS> CalcLayerList;
-	std::vector<CalcPoolsCLS> CalcPoolList;
-	std::vector<ActivationLayerCLS> ActivationLayerList;
+	std::vector<CalcLayerCLS> calcLayerList;
+	std::vector<CalcPoolsCLS> calcPoolList;
+	std::vector<ActivationLayerCLS> activationLayerList;
 
 public:
 	ConvStructureSettings settings;
-	std::vector<ConvStructureElement> structure;
+	std::vector<std::vector<std::vector<ConvStructureElement>>> structure;
 
 	ConvStructureCLS(ConvStructureSettings settings = ConvStructureSettings()) { this->settings = settings; }
 	
-	void addStructureElement(CalcLayerCLS calcLayer_);
-	void addStructureElement(CalcPoolsCLS calcPools_);
-	void addStructureElement(ActivationLayerCLS ActivationLayer_);
+	void addStructureElement(CalcLayerCLS calcLayer_, int step = NULL, int substep = NULL);
+	void addStructureElement(CalcPoolsCLS calcPools_, int step = NULL, int substep = NULL);
+	void addStructureElement(ActivationLayerCLS activationLayer_, int step = NULL, int substep = NULL);
 
 	std::vector<std::vector<std::vector<float>>> runConvStructure(std::vector<std::vector<std::vector<float>>> data);
 	void mutateConvStructure(float severity);
 
 	static void printVector(std::vector<std::vector<float>>& data);
 	static void printVector(std::vector<std::vector<std::vector<float>>>& data);
+
 	void printFilters(std::string filterName = "");
+
+	void printStructure();
 };
 
