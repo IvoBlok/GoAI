@@ -30,9 +30,9 @@ int main()
 
     // load data
     // -----------------------------------------------------------------------
-    std::vector<std::vector<float>> data;
+    std::vector<std::vector<std::vector<float>>> data;
     ImageHandlingCLS imageHandler;
-    imageHandler.loadImageTo2dVector((prjPath + relativeInputPath).c_str(), data);
+    imageHandler.loadImageTo3dVector((prjPath + relativeInputPath).c_str(), data, false);
 
     // create conv layer structure
     // -----------------------------------------------------------------------
@@ -41,25 +41,33 @@ int main()
     ConvStructureCLS convStructure(ConvStructureSettings{false});
     
     // first conv stages
-    convStructure.addStructureElement(CalcLayerCLS());
-    convStructure.addStructureElement(CalcLayerCLS());
+    CalcLayerSettings calcLayerSettings{};
+    calcLayerSettings.initialFilter = CalcLayerSettings::createRandomFilter(3, 3, 3);
+    calcLayerSettings.compensateBorder = true;
+    calcLayerSettings.compensateDepthBorder = false;
+    convStructure.addStructureElement(CalcLayerCLS{ calcLayerSettings });
 
     
     // first activation stages
+    /*
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::RELU} });
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::SIGMOID} });
-
+    */
+    
     // first pooling stage
     CalcPoolsSettings pool1Settings{};
-    int stride[2]{ 3, 3 };
-    pool1Settings.set2Dstride(stride);
+    int stride[3]{ 3, 3, 1 };
+    pool1Settings.setStride(stride);
     convStructure.addStructureElement(CalcPoolsCLS{ pool1Settings });
+    
 
     // running the neural network
     // -----------------------------------------------------------------------
 
     // run the convolutional structure once
+    
     data = convStructure.runConvStructure(data);
+    convStructure.printFilters();
 
     for (int i = 0; i < 0; i++)
     {
@@ -71,7 +79,8 @@ int main()
         std::cout << tempCalcScore(convStructure.runConvStructure(data)) << std::endl;
     }
 
-    imageHandler.saveImageFrom2dVector((prjPath + relativeOutputPath + getCurrentTimeString() + ".png").c_str(), data);
+    imageHandler.saveImageFromVector((prjPath + relativeOutputPath + getCurrentTimeString() + ".png").c_str(), data);
     
+    system("pause");
     return 1;
 }

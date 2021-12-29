@@ -2,9 +2,11 @@
 #include "ConvStructureCLS.hpp"
 #include <cstring>
 
-std::vector<std::vector<float>> ConvStructureCLS::runConvStructure(std::vector<std::vector<float>> data) {
-	std::vector<std::vector<float>> dataHolder = data;
+std::vector<std::vector<std::vector<float>>> ConvStructureCLS::runConvStructure(std::vector<std::vector<std::vector<float>>> data) {
+	std::vector<std::vector<std::vector<float>>> dataHolder = data;
 
+	// go over every structure step
+	// every step can contain multiple substeps to generate the data for the next step
 	for (size_t i = 0; i < structure.size(); i++)
 	{
 		if (structure[i].layerType == ConvLayerTypes::CalcLayer) {
@@ -18,7 +20,7 @@ std::vector<std::vector<float>> ConvStructureCLS::runConvStructure(std::vector<s
 			if (settings.printOutput) { std::cout << "Layer type: CalcPoolsLayer" << std::endl; }
 		}
 		if (settings.printOutput) {
-			print2dVector(dataHolder);
+			printVector(dataHolder);
 		}
 	}
 	return dataHolder;
@@ -45,11 +47,24 @@ void ConvStructureCLS::addStructureElement(ActivationLayerCLS ActivationLayer_) 
 	ActivationLayerList.push_back(ActivationLayer_);
 }
 
-void ConvStructureCLS::print2dVector(std::vector<std::vector<float>> data) {
+void ConvStructureCLS::printVector(std::vector<std::vector<float>>& data) {
 	for (size_t i = 0; i < data.size(); i++)
 	{
 		for (size_t j = 0; j < data[i].size(); j++) std::cout << std::fixed << std::setprecision(2) << data[i][j] << ' ';
 		std::cout << std::endl;
+	}
+	std::cout << "-=-=-=-=-=-=-=-=-=-=-=-" << std::endl;
+}
+
+void ConvStructureCLS::printVector(std::vector<std::vector<std::vector<float>>>& data) {
+	for (size_t k = 0; k < data[0][0].size(); k++)
+	{
+		for (size_t i = 0; i < data.size(); i++)
+		{
+			for (size_t j = 0; j < data[i].size(); j++) std::cout << std::fixed << std::setprecision(2) << data[i][j][k] << ' ';
+			std::cout << std::endl;
+		}
+		std::cout << "---------" << std::endl;
 	}
 	std::cout << "-=-=-=-=-=-=-=-=-=-=-=-" << std::endl;
 }
@@ -66,6 +81,6 @@ void ConvStructureCLS::printFilters(std::string filterName) {
 	for (size_t i = 0; i < CalcLayerList.size(); i++)
 	{
 		std::cout << "Filter: " << filterName << " " << i << std::endl;
-		print2dVector(CalcLayerList[i].settings.initialFilter);
+		ConvStructureCLS::printVector(CalcLayerList[i].settings.initialFilter);
 	}
 }

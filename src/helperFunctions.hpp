@@ -15,6 +15,21 @@ float tempCalcScore(std::vector<std::vector<float>> data) {
     return sum;
 }
 
+float tempCalcScore(std::vector<std::vector<std::vector<float>>> data) {
+    float sum = 0;
+    for (size_t i = 0; i < data.size(); i++)
+    {
+        for (size_t j = 0; j < data[0].size(); j++)
+        {
+            for (size_t k = 0; k < data[0][0].size(); k++)
+            {
+                sum += data[i][j][k];
+            }
+        }
+    }
+    return sum;
+}
+
 std::string getCurrentTimeString() {
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);

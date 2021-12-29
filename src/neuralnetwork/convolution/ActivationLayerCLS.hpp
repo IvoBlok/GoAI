@@ -28,9 +28,9 @@ public:
 	ActivationLayerCLS(ActivationLayerSettings settings_) {
 		settings = settings_;
 	}
-	std::vector<std::vector<float>> run(std::vector<std::vector<float>>& data) {
+	std::vector<std::vector<std::vector<float>>> run(std::vector<std::vector<std::vector<float>>>& data) {
 		return run(data, settings);
 	}
-	std::vector<std::vector<float>> run(std::vector<std::vector<float>>& data, ActivationLayerSettings settings_);
+	std::vector<std::vector<std::vector<float>>> run(std::vector<std::vector<std::vector<float>>>& data, ActivationLayerSettings settings_);
 };
 

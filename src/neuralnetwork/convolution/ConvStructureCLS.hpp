@@ -44,10 +44,11 @@ public:
 	void addStructureElement(CalcPoolsCLS calcPools_);
 	void addStructureElement(ActivationLayerCLS ActivationLayer_);
 
-	std::vector<std::vector<float>> runConvStructure(std::vector<std::vector<float>> data);
+	std::vector<std::vector<std::vector<float>>> runConvStructure(std::vector<std::vector<std::vector<float>>> data);
 	void mutateConvStructure(float severity);
 
-	void print2dVector(std::vector<std::vector<float>> data);
+	static void printVector(std::vector<std::vector<float>>& data);
+	static void printVector(std::vector<std::vector<std::vector<float>>>& data);
 	void printFilters(std::string filterName = "");
 };
 
