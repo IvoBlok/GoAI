@@ -17,7 +17,7 @@
 #include <ctime>
 #include <sstream>
 
-void main()
+int main()
 {
     // initial setup
     // -----------------------------------------------------------------------
@@ -44,6 +44,7 @@ void main()
     convStructure.addStructureElement(CalcLayerCLS());
     convStructure.addStructureElement(CalcLayerCLS());
 
+    
     // first activation stages
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::RELU} });
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::SIGMOID} });
@@ -60,15 +61,17 @@ void main()
     // run the convolutional structure once
     data = convStructure.runConvStructure(data);
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 0; i++)
     {
         std::cout << "==============================================" << std::endl;
         std::cout << "GENERATION : " << i + 1 << std::endl;
         std::cout << "==============================================" << std::endl;
-        convStructure.mutateConvStructure(0.2);
+        convStructure.mutateConvStructure((float)0.2);
 
         std::cout << tempCalcScore(convStructure.runConvStructure(data)) << std::endl;
     }
+
     imageHandler.saveImageFrom2dVector((prjPath + relativeOutputPath + getCurrentTimeString() + ".png").c_str(), data);
-    return;
+    
+    return 1;
 }

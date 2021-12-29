@@ -32,5 +32,5 @@ std::string getProjectPath() {
 }
 
 void initRandomnessSeed() {
-    std::srand(time(NULL));
+    std::srand((unsigned int)time(NULL));
 }

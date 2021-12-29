@@ -10,13 +10,21 @@ static float randValue0to1() {
 }
 
 struct CalcLayerSettings {
+	std::vector<std::vector<float>> createRandomFilter(int width, int height) {
+		std::vector<std::vector<float>> temp(width, std::vector<float>(height, 0));
+		for (int i = 0; i < width; i++)
+		{
+			for (int j = 0; j < height; j++)
+			{
+				temp[i][j] = randValue0to1() * 2 - 1;
+			}
+		}
+		return temp;
+	}
 	bool compensateBorder = true;
 	float borderCompensationValue = 0;
-	std::vector<std::vector<float>> initialFilter = { 
-		{randValue0to1() * 2 - 1, randValue0to1() * 2 - 1, randValue0to1() * 2 - 1},
-		{randValue0to1() * 2 - 1, randValue0to1() * 2 - 1, randValue0to1() * 2 - 1},
-		{randValue0to1() * 2 - 1, randValue0to1() * 2 - 1, randValue0to1() * 2 - 1},
-	};
+	std::vector<std::vector<float>> initialFilter = createRandomFilter(3, 3);
+	float maxFilterValueSize = 1;
 };
 
 class CalcLayerCLS

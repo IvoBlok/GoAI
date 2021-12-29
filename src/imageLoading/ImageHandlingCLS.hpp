@@ -29,7 +29,7 @@ public:
                     for (int j = 0; j < width; j++)
                     {
                         // convert RGB to Grayscale with the standard rgb proportions, and scale it to a value between 0 and 1
-                        dataDestination[i][j] = (0.23 * img[(i * width + j) * 3] + 0.59 * img[(i * width + j) * 3 + 1] + 0.11 * img[(i * width + j) * 3 + 2]) / 256;
+                        dataDestination[i][j] =  (float)std::round((0.23 * img[(i * width + j) * 3] + 0.59 * img[(i * width + j) * 3 + 1] + 0.11 * img[(i * width + j) * 3 + 2]) / 256.0);
                     }
                 }
             }
@@ -57,11 +57,11 @@ public:
             for (size_t j = 0; j < data[0].size(); j++)
             {
                 // convert the grayscale 0-1 scale to 0-256 scale
-                pixels[index++] = data[i][j] * 256;
+                pixels[index++] = (int)std::round(data[i][j] * 256);
             }
         }
 
-        stbi_write_png(filePath, data[0].size(), data.size(), 1, pixels, 0);
+        stbi_write_png(filePath, (int)data[0].size(), (int)data.size(), 1, pixels, 0);
         delete[] pixels;
     }
 };
