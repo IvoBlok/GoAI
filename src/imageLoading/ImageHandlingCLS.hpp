@@ -14,6 +14,10 @@ class ImageHandlingCLS
 private:
 
 public:
+    void test() {
+
+    }
+
     void loadImageTo3dVector(const char* filePath, std::vector<std::vector<std::vector<float>>>& dataDestination, bool grayScale = true) {
         int width, height, channels;
         unsigned char* img = stbi_load(filePath, &width, &height, &channels, 0);
@@ -26,7 +30,8 @@ public:
         if (img != nullptr && width > 0 && height > 0 && (channels == 3 || channels == 1))
         {
             dataDestination = std::vector<std::vector<std::vector<float>>>(height, std::vector<std::vector<float>>(width, std::vector<float>(desiredResultLayerCount, 0)));
-        
+
+            /*
             if (channels == 3) {
                 for (int i = 0; i < height; i++)
                 {
@@ -56,11 +61,12 @@ public:
                     }
                 }
             }
+            */
         }
         else {
             std::cout << "ERROR::GIVEN_IMAGE_IS_INVALID" << std::endl;
         }
-        stbi_image_free(img);
+        stbi_image_free(img); // same as free(img)
 	}
     void saveImageFromVector(const char* filePath, std::vector<std::vector<float>>& data) {
         uint8_t* pixels = new uint8_t[data[0].size() * data.size()];

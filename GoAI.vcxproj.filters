@@ -18,30 +18,30 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\neuralnetwork\convolution\CalcLayerCLS.cpp">
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\CalcLayerCLS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\neuralnetwork\convolution\CalcPoolsCLS.cpp">
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\CalcPoolsCLS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\neuralnetwork\convolution\ActivationLayerCLS.cpp">
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\ActivationLayerCLS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\neuralnetwork\convolution\ConvStructureCLS.cpp">
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\ConvStructureCLS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\neuralnetwork\convolution\CalcLayerCLS.hpp">
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\CalcLayerCLS.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\neuralnetwork\convolution\CalcPoolsCLS.hpp">
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\CalcPoolsCLS.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\neuralnetwork\convolution\ActivationLayerCLS.hpp">
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\ActivationLayerCLS.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\neuralnetwork\convolution\ConvStructureCLS.hpp">
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\ConvStructureCLS.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\imageLoading\ImageHandlingCLS.hpp">

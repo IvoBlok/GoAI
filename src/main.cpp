@@ -4,7 +4,7 @@
 #define STRINGIFY(x) #x
 #define EXPAND(x) STRINGIFY(x)
 
-#include "neuralnetwork/convolution/ConvStructureCLS.hpp"
+#include "neuralnetwork/nodetypes/convolution/ConvStructureCLS.hpp"
 
 #include "imageLoading/ImageHandlingCLS.hpp"
 
@@ -34,11 +34,16 @@ int main()
     ImageHandlingCLS imageHandler;
     imageHandler.loadImageTo3dVector((prjPath + relativeInputPath).c_str(), data, false);
 
+    std::cout << "data memory size: " << (sizeof(std::vector<float>) + (sizeof(float) * data.size() * data[0].size() * data[0][0].size())) / (float)1000000 << "MB" << std::endl;
+    std::cout << data.size() << " " << data[0].size() << " " << data[0][0].size() << std::endl;
     // create conv layer structure
     // -----------------------------------------------------------------------
     
+    
+    
     // instantiate the convolutional layer structure class
     ConvStructureCLS convStructure(ConvStructureSettings{false});
+    
     
     // first conv stages
     CalcLayerSettings calcLayerSettings{};
@@ -52,6 +57,7 @@ int main()
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::RELU} });
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::SIGMOID} });
     
+    
     // first pooling stage
     CalcPoolsSettings pool1Settings{};
     int stride[3]{ 3, 3, 1 };
@@ -59,8 +65,10 @@ int main()
     convStructure.addStructureElement(CalcPoolsCLS{ pool1Settings });
     
     convStructure.printStructure();
+    
     // running the neural network
     // -----------------------------------------------------------------------
+    
     data = convStructure.runConvStructure(data);
 
     for (int i = 0; i < 0; i++)

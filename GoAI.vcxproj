@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\neuralnetwork\convolution\ConvStructureCLS.cpp" />
-    <ClCompile Include="src\neuralnetwork\convolution\ActivationLayerCLS.cpp" />
-    <ClCompile Include="src\neuralnetwork\convolution\CalcPoolsCLS.cpp" />
-    <ClCompile Include="src\neuralnetwork\convolution\CalcLayerCLS.cpp" />
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\ConvStructureCLS.cpp" />
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\ActivationLayerCLS.cpp" />
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\CalcPoolsCLS.cpp" />
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\CalcLayerCLS.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -30,10 +30,10 @@
     <ClInclude Include="src\imageLoading\ImageHandlingCLS.hpp" />
     <ClInclude Include="src\imageLoading\stb_image.h" />
     <ClInclude Include="src\imageLoading\stb_image_write.h" />
-    <ClInclude Include="src\neuralnetwork\convolution\ConvStructureCLS.hpp" />
-    <ClInclude Include="src\neuralnetwork\convolution\ActivationLayerCLS.hpp" />
-    <ClInclude Include="src\neuralnetwork\convolution\CalcPoolsCLS.hpp" />
-    <ClInclude Include="src\neuralnetwork\convolution\CalcLayerCLS.hpp" />
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\ConvStructureCLS.hpp" />
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\ActivationLayerCLS.hpp" />
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\CalcPoolsCLS.hpp" />
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\CalcLayerCLS.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
