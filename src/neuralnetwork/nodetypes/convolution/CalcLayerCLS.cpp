@@ -12,6 +12,7 @@ bool CalcLayerCLS::setSettings(CalcLayerSettings settings_) {
 
 arr_3d_data& CalcLayerCLS::run(arr_3d_data& data, arr_3d_data& filter) {
 	// check given inputs
+	/*
 	assert(filter.maxWidth % 2 == 1);
 	assert(filter.maxHeight % 2 == 1);
 	assert(filter.maxDepth % 2 == 1);
@@ -30,11 +31,11 @@ arr_3d_data& CalcLayerCLS::run(arr_3d_data& data, arr_3d_data& filter) {
 		arr_3d_data result{data.maxWidth - 2 * filterHalfWidth, data.maxHeight - 2 * filterHalfHeight, resultDepthSize};
 		// Go over each of the points in the resulting 2d vector
 		
-		for (size_t i = 0; i < result.maxWidth; i++)
+		for (int i = 0; i < result.maxWidth; i++)
 		{
-			for (size_t j = 0; j < result.maxHeight; j++)
+			for (int j = 0; j < result.maxHeight; j++)
 			{
-				for (size_t k = 0; k < result.maxDepth; k++)
+				for (int k = 0; k < result.maxDepth; k++)
 				{
 					float value = 0;
 					// calculate the value by multiplying the filter with the region around the chosen point
@@ -54,6 +55,7 @@ arr_3d_data& CalcLayerCLS::run(arr_3d_data& data, arr_3d_data& filter) {
 			}
 		}
 		data.replaceDataAndDestroyOld(result);
+		result.~arr_3d_data();
 		return data;
 	}
 	else {
@@ -95,6 +97,11 @@ arr_3d_data& CalcLayerCLS::run(arr_3d_data& data, arr_3d_data& filter) {
 		data.replaceDataAndDestroyOld(result);
 		return data;
 	}
+	*/
+	arr_3d_data result{ data.maxWidth, data.maxHeight, data.maxDepth };
+	data.copy(result);
+	result.~arr_3d_data();
+	return data;
 }
 
 void CalcLayerCLS::mutateFilter(float severity) {

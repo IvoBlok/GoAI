@@ -31,16 +31,16 @@ public:
 	
 	CalcPoolsCLS(CalcPoolsSettings settings = CalcPoolsSettings()) { this->settings = settings; }
 	
-	arr_3d_data run(
+	void run(
 		arr_3d_data& data,
 		const int stride[2],
 		PoolFunctionTypes functionType
 		);
 
-	arr_3d_data run(
+	void run(
 		arr_3d_data& data
 		) {
-		return run(data, settings.stride, settings.functionType);
+		run(data, settings.stride, settings.functionType);
 	}
 };
 

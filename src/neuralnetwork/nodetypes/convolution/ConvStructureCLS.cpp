@@ -2,13 +2,36 @@
 #include "ConvStructureCLS.hpp"
 #include <cstring>
 
-arr_3d_data ConvStructureCLS::runConvStructure(arr_3d_data& data) {
+void ConvStructureCLS::runConvStructure(arr_3d_data& data) {
 	arr_3d_data dataHolderSubStep = data;
 	arr_3d_data sumHolder;
 
 	std::cout << std::endl << "===============================" << std::endl << "conv structure has started!" << std::endl;
 	// go over every structure step
 	// every step can contain multiple substeps to generate the data for the next step
+	/*
+	for (size_t i = 0; i < structure.size(); i++)
+	{
+		for (size_t j = 0; j < structure[i].size(); j++)
+		{
+			for (size_t k = 0; k < structure[i][j].size(); k++)
+			{
+				if (structure[i][j][k].layerType == ConvLayerTypes::CalcLayer) {
+					calcLayerList[structure[i][j][k].respectiveIndex].run(data);
+					if (settings.printOutput) { std::cout << "Layer type: CalcLayer" << std::endl; }
+				}
+				else if (structure[i][j][k].layerType == ConvLayerTypes::ActivationLayer) {
+					activationLayerList[structure[i][j][k].respectiveIndex].run(data);
+					if (settings.printOutput) { std::cout << "Layer type: ActivationLayer" << std::endl; }
+				}
+				else if (structure[i][j][k].layerType == ConvLayerTypes::CalcPools) {
+					calcPoolList[structure[i][j][k].respectiveIndex].run(data);
+					if (settings.printOutput) { std::cout << "Layer type: CalcPoolsLayer" << std::endl; }
+				}
+			}
+		}
+	}*/
+	
 	for (size_t i = 0; i < structure.size(); i++)
 	{
 		sumHolder.allocateSpace(0, 0, 0);
@@ -36,17 +59,13 @@ arr_3d_data ConvStructureCLS::runConvStructure(arr_3d_data& data) {
 			std::cout << "substep has been run!" << std::endl;
 			// check if the data from every series of substeps has the same width and height
 			if (sumHolder.maxValueCount != 0) {
-				if (sumHolder.maxWidth != dataHolderSubStep.maxWidth || sumHolder.maxHeight != dataHolderSubStep.maxHeight) { assert(false, "ERROR:SUBSTEPS_DONT_ALL_RETURN_DATA_OFF_THE_SAME_WIDTH_AND/OR_HEIGHT"); }
+				if (sumHolder.maxWidth != dataHolderSubStep.maxWidth || sumHolder.maxHeight != dataHolderSubStep.maxHeight) { std::cout <<  "ERROR:SUBSTEPS_DONT_ALL_RETURN_DATA_OFF_THE_SAME_WIDTH_AND/OR_HEIGHT" << std::endl; abort(); }
 			}
 			sumHolder.insert(dataHolderSubStep);
 		}
 		data.copy(sumHolder);
 		std::cout << "step has been run!" << std::endl;
 	}
-	dataHolderSubStep.allocateSpace(0, 0, 0);
-	sumHolder.allocateSpace(0, 0, 0);
-
-	return data;
 }
 
 void ConvStructureCLS::addStructureElement(CalcLayerCLS calcLayer_, int step, int substep) {
@@ -54,12 +73,12 @@ void ConvStructureCLS::addStructureElement(CalcLayerCLS calcLayer_, int step, in
 	calcLayerList.push_back(calcLayer_);
 	
 	if (step == NULL) {
-		step = structure.size(); 
+		step = (int)structure.size(); 
 		std::vector<std::vector<ConvStructureElement>> newStepStructure(1, std::vector<ConvStructureElement>(1, ConvStructureElement(respectiveIndex, ConvLayerTypes::CalcLayer)));
 		structure.push_back(newStepStructure);
 	}
 	else if (substep == NULL) {
-		substep = structure[step - 1].size();
+		substep = (int)structure[step - 1].size();
 		std::vector<ConvStructureElement> newSubStepStructure(1, ConvStructureElement(respectiveIndex, ConvLayerTypes::CalcLayer));
 		structure[step - 1].push_back(newSubStepStructure);
 	}
@@ -73,12 +92,12 @@ void ConvStructureCLS::addStructureElement(CalcPoolsCLS calcPools_, int step, in
 	calcPoolList.push_back(calcPools_);
 
 	if (step == NULL) {
-		step = structure.size();
+		step = (int)structure.size();
 		std::vector<std::vector<ConvStructureElement>> newStepStructure(1, std::vector<ConvStructureElement>(1, ConvStructureElement(respectiveIndex, ConvLayerTypes::CalcPools)));
 		structure.push_back(newStepStructure);
 	}
 	else if (substep == NULL) {
-		substep = structure[step - 1].size();
+		substep = (int)structure[step - 1].size();
 		std::vector<ConvStructureElement> newSubStepStructure(1, ConvStructureElement(respectiveIndex, ConvLayerTypes::CalcPools));
 		structure[step - 1].push_back(newSubStepStructure);
 	}
@@ -92,12 +111,12 @@ void ConvStructureCLS::addStructureElement(ActivationLayerCLS activationLayer_, 
 	activationLayerList.push_back(activationLayer_);
 
 	if (step == NULL) {
-		step = structure.size();
+		step = (int)structure.size();
 		std::vector<std::vector<ConvStructureElement>> newStepStructure(1, std::vector<ConvStructureElement>(1, ConvStructureElement(respectiveIndex, ConvLayerTypes::ActivationLayer)));
 		structure.push_back(newStepStructure);
 	}
 	else if (substep == NULL) {
-		substep = structure[step - 1].size();
+		substep = (int)structure[step - 1].size();
 		std::vector<ConvStructureElement> newSubStepStructure(1, ConvStructureElement(respectiveIndex, ConvLayerTypes::ActivationLayer));
 		structure[step - 1].push_back(newSubStepStructure);
 	}

@@ -61,7 +61,7 @@ public:
                     for (int j = 0; j < width; j++)
                     {
                         //dataDestination[i][j][0] = img[i * width + j] / 256;
-                        dataDestination.setValue(j, i, 0, img[i * width + j] / 256);
+                        dataDestination.setValue(j, i, 0, img[i * width + j] / (float)256);
                     }
                 }
             }

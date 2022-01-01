@@ -30,9 +30,9 @@ public:
 	ActivationLayerCLS(ActivationLayerSettings settings_) {
 		settings = settings_;
 	}
-	arr_3d_data run(arr_3d_data& data) {
+	void run(arr_3d_data& data) {
 		return run(data, settings);
 	}
-	arr_3d_data run(arr_3d_data& data, ActivationLayerSettings settings_);
+	void run(arr_3d_data& data, ActivationLayerSettings settings_);
 };
 

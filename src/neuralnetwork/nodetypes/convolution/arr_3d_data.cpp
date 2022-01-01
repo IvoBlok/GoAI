@@ -5,7 +5,6 @@
 #include <random>
 #include <ctime>
 
-
 static float randValueneg1to1() {
 	return ((float)(std::rand()) / (float)RAND_MAX) * 2 - 1;
 }
@@ -15,17 +14,17 @@ arr_3d_data::arr_3d_data(int width_, int height_, int depth_) {
 }
 
 arr_3d_data::~arr_3d_data() {
-	arr.release();
+	arr.reset();
 	arr = nullptr;
 }
 
 void arr_3d_data::allocateSpace(int width_, int height_, int depth_) {
+	this->~arr_3d_data();
 	maxWidth = width_;
 	maxHeight = height_;
 	maxDepth = depth_;
 	int amount = width_ * height_ * depth_;
-	if (maxValueCount != 0) { arr.release(); }
-	arr = std::unique_ptr<float[]>(new float[amount]);
+	arr = std::make_unique<float[]>(amount);
 	maxValueCount = amount;
 	for (int i = 0; i < maxValueCount; i++)
 	{
@@ -39,7 +38,8 @@ void arr_3d_data::empty() {
 
 float arr_3d_data::getValue(int widthIndex_, int heightIndex_, int depthIndex_) {
 	if (widthIndex_ >= maxWidth || heightIndex_ >= maxHeight || depthIndex_ >= maxDepth) {
-		assert(false, "ERROR::GIVEN_INDEX_IS_OUT_OF_RANGE");
+		std::cout << "ERROR::GIVEN_INDEX_IS_OUT_OF_RANGE" << std::endl;
+		abort();
 	}
 	return arr[maxHeight * (depthIndex_ * maxWidth + widthIndex_) + heightIndex_];
 }
@@ -149,7 +149,7 @@ void arr_3d_data::print() {
 		for (size_t i = 0; i < widthCount; i++)
 		{
 			for (size_t j = 0; j < heightCount; j++)
-				std::cout << std::fixed << std::setprecision(2) << getValue(i, j, k) << ' ';
+				std::cout << std::fixed << std::setprecision(2) << getValue((int)i, (int)j, (int)k) << ' ';
 
 			std::cout << std::endl;
 		}
@@ -161,8 +161,8 @@ void arr_3d_data::print() {
 arr_3d_data::arr_3d_data(const arr_3d_data& obj) {
 	if (this->arr == obj.arr) { return; }
 
-	arr.release();
-	arr = std::unique_ptr<float[]>(new float[obj.maxValueCount]);
+	arr.reset();
+	arr = std::make_unique<float[]>(obj.maxValueCount);
 	maxValueCount = obj.maxValueCount;
 	maxWidth = obj.maxWidth;
 	maxHeight = obj.maxHeight;
@@ -176,8 +176,8 @@ arr_3d_data::arr_3d_data(const arr_3d_data& obj) {
 arr_3d_data& arr_3d_data::operator=(const arr_3d_data& data) {
 	if (this->arr == data.arr) { return *this; }
 
-	arr.release();
-	arr = std::unique_ptr<float[]>(new float[data.maxValueCount]);
+	arr.reset();
+	arr = std::make_unique<float[]>(data.maxValueCount);
 	maxValueCount = data.maxValueCount;
 	maxWidth = data.maxWidth;
 	maxHeight = data.maxHeight;

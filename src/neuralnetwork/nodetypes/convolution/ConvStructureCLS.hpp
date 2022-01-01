@@ -47,7 +47,7 @@ public:
 	void addStructureElement(CalcPoolsCLS calcPools_, int step = NULL, int substep = NULL);
 	void addStructureElement(ActivationLayerCLS activationLayer_, int step = NULL, int substep = NULL);
 
-	arr_3d_data runConvStructure(arr_3d_data& data);
+	void runConvStructure(arr_3d_data& data);
 	void mutateConvStructure(float severity);
 
 	void printFilters(std::string filterName = "");

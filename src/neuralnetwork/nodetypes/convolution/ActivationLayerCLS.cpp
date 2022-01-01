@@ -4,7 +4,7 @@
 #include <cassert>
 #include <cmath>
 
-arr_3d_data ActivationLayerCLS::run(arr_3d_data& data, ActivationLayerSettings settings_) {
+void ActivationLayerCLS::run(arr_3d_data& data, ActivationLayerSettings settings_) {
 	for (int i = 0; i < data.maxValueCount; i++)
 	{
 		if (settings_.functionType == ActivationFunctionTypes::RELU) {
@@ -18,8 +18,6 @@ arr_3d_data ActivationLayerCLS::run(arr_3d_data& data, ActivationLayerSettings s
 			assert(false);
 		}
 	}
-
-	return data;
 }
 
 float ActivationLayerCLS::ReLuActivationFunction(float value) {

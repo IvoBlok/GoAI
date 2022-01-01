@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-arr_3d_data CalcPoolsCLS::run(
+void CalcPoolsCLS::run(
 	arr_3d_data& data,
 	const int stride[3],
 	PoolFunctionTypes functionType
@@ -11,19 +11,19 @@ arr_3d_data CalcPoolsCLS::run(
 
 	arr_3d_data result{ (int)std::ceil(data.maxWidth / stride[0]), (int)std::ceil(data.maxHeight / stride[1]), (int)std::ceil(data.maxDepth / stride[2]) };
 
-	for (size_t i = 0; i < result.maxWidth; i++)
+	for (int i = 0; i < result.maxWidth; i++)
 	{
-		for (size_t j = 0; j < result.maxHeight; j++)
+		for (int j = 0; j < result.maxHeight; j++)
 		{
-			for (size_t k = 0; k < result.maxDepth; k++)
+			for (int k = 0; k < result.maxDepth; k++)
 			{
 				arr_3d_data values{stride[0], stride[1], stride[2]};
 
-				for (size_t x = 0; x < values.maxWidth; x++)
+				for (int x = 0; x < values.maxWidth; x++)
 				{
-					for (size_t y = 0; y < values.maxHeight; y++)
+					for (int y = 0; y < values.maxHeight; y++)
 					{
-						for (size_t z = 0; z < values.maxDepth; z++)
+						for (int z = 0; z < values.maxDepth; z++)
 						{
 							if (i * stride[0] + x >= data.maxWidth || j * stride[1] + y >= data.maxHeight || k * stride[2] + z >= data.maxDepth) {
 								values.setValue(x, y, z, NULL);
@@ -47,7 +47,7 @@ arr_3d_data CalcPoolsCLS::run(
 		}
 	}
 	data.replaceDataAndDestroyOld(result);
-	return data;
+	result.~arr_3d_data();
 }
 
 float CalcPoolsCLS::poolFuncAvg(arr_3d_data& values) {

@@ -5,8 +5,6 @@
 #include <iostream>
 #include <iomanip>
 
-static int arr_counter = 0;
-
 class arr_3d_data
 {
 private:
