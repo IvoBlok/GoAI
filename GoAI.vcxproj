@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\arr_3d_data.cpp" />
     <ClCompile Include="src\neuralnetwork\nodetypes\convolution\ConvStructureCLS.cpp" />
     <ClCompile Include="src\neuralnetwork\nodetypes\convolution\ActivationLayerCLS.cpp" />
     <ClCompile Include="src\neuralnetwork\nodetypes\convolution\CalcPoolsCLS.cpp" />
@@ -26,6 +27,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\arr_3d_data.hpp" />
     <ClInclude Include="src\helperFunctions.hpp" />
     <ClInclude Include="src\imageLoading\ImageHandlingCLS.hpp" />
     <ClInclude Include="src\imageLoading\stb_image.h" />

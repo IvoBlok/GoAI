@@ -1,5 +1,7 @@
 #pragma once
 
+#include "arr_3d_data.hpp"
+
 #include <vector>
 #include <map>
 #include <random>
@@ -10,24 +12,10 @@ static float randValue0to1() {
 }
 
 struct CalcLayerSettings {
-	static std::vector<std::vector<std::vector<float>>> createRandomFilter(int width, int height, int depth) {
-		std::vector<std::vector<std::vector<float>>> temp(width, std::vector<std::vector<float>>(height, std::vector<float>(depth, 0)));
-		for (int i = 0; i < width; i++)
-		{
-			for (int j = 0; j < height; j++)
-			{
-				for (int k = 0; k < depth; k++)
-				{
-					temp[i][j][k] = randValue0to1() * 2 - 1;
-				}
-			}
-		}
-		return temp;
-	}
 	bool compensateBorder = true;
 	bool compensateDepthBorder = false;
 	float borderCompensationValue = 0;
-	std::vector<std::vector<std::vector<float>>> initialFilter = createRandomFilter(3, 3, 1);
+	arr_3d_data initialFilter;
 	float maxFilterValueSize = 1;
 };
 
@@ -35,13 +23,13 @@ class CalcLayerCLS
 {
 public:
 	CalcLayerSettings settings;
-	CalcLayerCLS(CalcLayerSettings settings = CalcLayerSettings()) {
-		this->settings = settings;
+	CalcLayerCLS(CalcLayerSettings settings_ = CalcLayerSettings{}) {
+		settings = settings_;
 	}
 	bool setSettings(CalcLayerSettings settings_);
 
-	std::vector<std::vector<std::vector<float>>> run(std::vector<std::vector<std::vector<float>>>& data) { return this->run(data, settings.initialFilter); }
-	std::vector<std::vector<std::vector<float>>> run(std::vector<std::vector<std::vector<float>>>& data, const std::vector<std::vector<std::vector<float>>> filter);
+	arr_3d_data& run(arr_3d_data& data) { return this->run(data, settings.initialFilter); }
+	arr_3d_data& run(arr_3d_data& data, arr_3d_data& filter);
 
 	void mutateFilter(float severity);
 };

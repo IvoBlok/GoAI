@@ -9,6 +9,7 @@
 #include "imageLoading/ImageHandlingCLS.hpp"
 
 #include "helperFunctions.hpp"
+#include "neuralnetwork/nodetypes/convolution/arr_3d_data.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -30,47 +31,46 @@ int main()
 
     // load data
     // -----------------------------------------------------------------------
-    std::vector<std::vector<std::vector<float>>> data;
+    arr_3d_data img;
     ImageHandlingCLS imageHandler;
-    imageHandler.loadImageTo3dVector((prjPath + relativeInputPath).c_str(), data, false);
+    imageHandler.loadImageTo3dVector((prjPath + relativeInputPath).c_str(), img, false);
 
-    std::cout << "data memory size: " << (sizeof(std::vector<float>) + (sizeof(float) * data.size() * data[0].size() * data[0][0].size())) / (float)1000000 << "MB" << std::endl;
-    std::cout << data.size() << " " << data[0].size() << " " << data[0][0].size() << std::endl;
+    std::cout << "img size: " << img.maxWidth << " " << img.maxHeight << " " << img.maxDepth << std::endl;
     // create conv layer structure
     // -----------------------------------------------------------------------
-    
-    
     
     // instantiate the convolutional layer structure class
     ConvStructureCLS convStructure(ConvStructureSettings{false});
     
     
-    // first conv stages
-    CalcLayerSettings calcLayerSettings{};
-    calcLayerSettings.initialFilter = CalcLayerSettings::createRandomFilter(3, 3, 3);
+    // first calc stage
+    convStructure.addStructureElement(CalcLayerCLS{});
+    CalcLayerSettings& calcLayerSettings = convStructure.calcLayerList[convStructure.calcLayerList.size() - 1].settings;
+   
+    calcLayerSettings.initialFilter = arr_3d_data::createRandomFilter(3, 3, 3);
     calcLayerSettings.compensateBorder = true;
     calcLayerSettings.compensateDepthBorder = false;
-    convStructure.addStructureElement(CalcLayerCLS{ calcLayerSettings });
 
-    
     // first activation stages
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::RELU} });
     convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::SIGMOID} });
     
-    
     // first pooling stage
-    CalcPoolsSettings pool1Settings{};
+    convStructure.addStructureElement(CalcPoolsCLS{});
+    CalcPoolsSettings& pool1Settings = convStructure.calcPoolList[convStructure.calcPoolList.size() - 1].settings;
     int stride[3]{ 3, 3, 1 };
     pool1Settings.setStride(stride);
-    convStructure.addStructureElement(CalcPoolsCLS{ pool1Settings });
     
+
     convStructure.printStructure();
-    
+
     // running the neural network
     // -----------------------------------------------------------------------
     
-    data = convStructure.runConvStructure(data);
+    //img = convStructure.runConvStructure(img);
+    convStructure.calcLayerList[convStructure.structure[0][0][0].respectiveIndex].run(img);
 
+    /*
     for (int i = 0; i < 0; i++)
     {
         std::cout << "==============================================" << std::endl;
@@ -78,11 +78,12 @@ int main()
         std::cout << "==============================================" << std::endl;
         convStructure.mutateConvStructure((float)0.2);
 
-        std::cout << tempCalcScore(convStructure.runConvStructure(data)) << std::endl;
+        std::cout << tempCalcScore(convStructure.runConvStructure(img)) << std::endl;
     }
-
-    imageHandler.saveImageFromVector((prjPath + relativeOutputPath + getCurrentTimeString() + ".png").c_str(), data);
+    */
+    imageHandler.saveImageFromVector((prjPath + relativeOutputPath + getCurrentTimeString() + ".png").c_str(), img);
     
     system("pause");
+
     return 1;
 }

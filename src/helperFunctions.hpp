@@ -1,31 +1,14 @@
 #pragma once
+#include "neuralnetwork/nodetypes/convolution/arr_3d_data.hpp"
 
 #include <sstream>
 #include <vector>
 
-float tempCalcScore(std::vector<std::vector<float>> data) {
+float tempCalcScore(arr_3d_data data) {
     float sum = 0;
-    for (size_t i = 0; i < data.size(); i++)
+    for (int i = 0; i < data.maxValueCount; i++)
     {
-        for (size_t j = 0; j < data[0].size(); j++)
-        {
-            sum += data[i][j];
-        }
-    }
-    return sum;
-}
-
-float tempCalcScore(std::vector<std::vector<std::vector<float>>> data) {
-    float sum = 0;
-    for (size_t i = 0; i < data.size(); i++)
-    {
-        for (size_t j = 0; j < data[0].size(); j++)
-        {
-            for (size_t k = 0; k < data[0][0].size(); k++)
-            {
-                sum += data[i][j][k];
-            }
-        }
+        sum += data.getValue(i);
     }
     return sum;
 }

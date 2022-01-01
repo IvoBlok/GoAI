@@ -4,29 +4,22 @@
 #include <cassert>
 #include <cmath>
 
-std::vector<std::vector<std::vector<float>>> ActivationLayerCLS::run(std::vector<std::vector<std::vector<float>>>& data, ActivationLayerSettings settings_) {
-	std::vector<std::vector<std::vector<float>>> result(data.size(), std::vector<std::vector<float>>(data[0].size(), std::vector<float>(data[0][0].size(), 0)));
-	for (size_t i = 0; i < data.size(); i++)
+arr_3d_data ActivationLayerCLS::run(arr_3d_data& data, ActivationLayerSettings settings_) {
+	for (int i = 0; i < data.maxValueCount; i++)
 	{
-		for (size_t j = 0; j < data[0].size(); j++)
-		{
-			for (size_t k = 0; k < data[0][0].size(); k++)
-			{
-				if (settings_.functionType == ActivationFunctionTypes::RELU) {
-					result[i][j][k] = this->ReLuActivationFunction(data[i][j][k]);
-				}
-				else if (settings_.functionType == ActivationFunctionTypes::SIGMOID) {
-					result[i][j][k] = this->SigmoidActivationFunction(data[i][j][k]);
-				}
-				else {
-					std::cout << "ERROR::NO_VALID_ACTIVATION_FUNCTION_NAME_GIVEN" << std::endl;
-					assert(false);
-				}
-			}
+		if (settings_.functionType == ActivationFunctionTypes::RELU) {
+			data.setValue(i, this->ReLuActivationFunction(data.getValue(i)));
+		}
+		else if (settings_.functionType == ActivationFunctionTypes::SIGMOID) {
+			data.setValue(i, this->SigmoidActivationFunction(data.getValue(i)));
+		}
+		else {
+			std::cout << "ERROR::NO_VALID_ACTIVATION_FUNCTION_NAME_GIVEN" << std::endl;
+			assert(false);
 		}
 	}
 
-	return result;
+	return data;
 }
 
 float ActivationLayerCLS::ReLuActivationFunction(float value) {

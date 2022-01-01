@@ -1,5 +1,7 @@
 #pragma once
 
+#include "arr_3d_data.hpp"
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -28,9 +30,9 @@ public:
 	ActivationLayerCLS(ActivationLayerSettings settings_) {
 		settings = settings_;
 	}
-	std::vector<std::vector<std::vector<float>>> run(std::vector<std::vector<std::vector<float>>>& data) {
+	arr_3d_data run(arr_3d_data& data) {
 		return run(data, settings);
 	}
-	std::vector<std::vector<std::vector<float>>> run(std::vector<std::vector<std::vector<float>>>& data, ActivationLayerSettings settings_);
+	arr_3d_data run(arr_3d_data& data, ActivationLayerSettings settings_);
 };
 

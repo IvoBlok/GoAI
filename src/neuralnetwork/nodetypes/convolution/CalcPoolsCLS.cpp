@@ -2,86 +2,77 @@
 
 #include <cmath>
 
-std::vector<std::vector<std::vector<float>>> CalcPoolsCLS::run(
-	std::vector<std::vector<std::vector<float>>>& data,
+arr_3d_data CalcPoolsCLS::run(
+	arr_3d_data& data,
 	const int stride[3],
 	PoolFunctionTypes functionType
 ) {
 	//in the 2d data structure, the data[0] gives the first row, data[0][n] gives the n - 1 value in the first row
 
-	std::vector<std::vector<std::vector<float>>> result(std::ceil(data.size() / stride[0]), std::vector<std::vector<float>>(std::ceil(data[0].size() / stride[1]), std::vector<float>(std::ceil(data[0][0].size() / stride[2]), 0)));
+	arr_3d_data result{ (int)std::ceil(data.maxWidth / stride[0]), (int)std::ceil(data.maxHeight / stride[1]), (int)std::ceil(data.maxDepth / stride[2]) };
 
-	for (size_t i = 0; i < std::ceil(data.size() / stride[0]); i++)
+	for (size_t i = 0; i < result.maxWidth; i++)
 	{
-		for (size_t j = 0; j < std::ceil(data[0].size() / stride[1]); j++)
+		for (size_t j = 0; j < result.maxHeight; j++)
 		{
-			for (size_t k = 0; k < std::ceil(data[0][0].size() / stride[2]); k++)
+			for (size_t k = 0; k < result.maxDepth; k++)
 			{
-				std::vector<std::vector<std::vector<float>>> values(stride[0], std::vector<std::vector<float>>(stride[1], std::vector<float>(stride[2], 0)));
+				arr_3d_data values{stride[0], stride[1], stride[2]};
 
-				for (size_t x = 0; x < stride[0]; x++)
+				for (size_t x = 0; x < values.maxWidth; x++)
 				{
-					for (size_t y = 0; y < stride[1]; y++)
+					for (size_t y = 0; y < values.maxHeight; y++)
 					{
-						for (size_t z = 0; z < stride[2]; z++)
+						for (size_t z = 0; z < values.maxDepth; z++)
 						{
-							if (i * stride[0] + x >= data.size() || j * stride[1] + y >= data[0].size() || k * stride[2] + z >= data[0][0].size()) {
-								values[x][y][z] = NULL;
+							if (i * stride[0] + x >= data.maxWidth || j * stride[1] + y >= data.maxHeight || k * stride[2] + z >= data.maxDepth) {
+								values.setValue(x, y, z, NULL);
 							}
 							else {
-								values[x][y][z] = data[i * stride[0] + x][j * stride[1] + y][k * stride[2] + z];
+								values.setValue(x, y, z, data.getValue(i * stride[0] + x, j * stride[1] + y, k * stride[2] + z));
 							}
 						}
 					}
 				}
 				if (functionType == PoolFunctionTypes::AVG) {
-					result[i][j][k] = this->poolFuncAvg(values);
+					result.setValue(i, j, k, this->poolFuncAvg(values));
 				}
 				else if (functionType == PoolFunctionTypes::MAX) {
-					result[i][j][k] = this->poolFuncMax(values);
+					result.setValue(i, j, k, this->poolFuncMax(values));
 				}
 				else {
-					result[i][j][k] = NULL;
+					result.setValue(i, j, k, NULL);
 				}
 			}
 		}
 	}
-	return result;
+	data.replaceDataAndDestroyOld(result);
+	return data;
 }
 
-float CalcPoolsCLS::poolFuncAvg(std::vector<std::vector<std::vector<float>>>& values) {
+float CalcPoolsCLS::poolFuncAvg(arr_3d_data& values) {
 	float sum = 0;
-	uint16_t count = 0;
-	for (size_t i = 0; i < values.size(); i++)
+	uint8_t count = 0;
+
+	for (int i = 0; i < values.maxValueCount; i++)
 	{
-		for (size_t j = 0; j < values[0].size(); j++)
-		{
-			for (size_t k = 0; k < values[0][0].size(); k++)
-			{
-				if (values[i][j][k] != NULL)
-				{
-					count++;
-					sum += values[i][j][k];
-				}
-			}
+		if (values.getValue(i) != NULL) {
+			count++;
+			sum += values.getValue(i);
 		}
 	}
+
 	return sum / count;
 }
 
-float CalcPoolsCLS::poolFuncMax(std::vector<std::vector<std::vector<float>>>& values) {
-	float max = values[0][0][0];
-	for (size_t i = 0; i < values.size(); i++)
+float CalcPoolsCLS::poolFuncMax(arr_3d_data& values) {
+	float max = values.getValue(0);
+	for (int i = 0; i < values.maxValueCount; i++)
 	{
-		for (size_t j = 0; j < values[0].size(); j++)
-		{
-			for (size_t k = 0; k < values[0][0].size(); k++)
-			{
-				if (values[i][j][k] != NULL && values[i][j][k] > max) {
-					max = values[i][j][k];
-				}
-			}
+		if (values.getValue(i) != NULL && values.getValue(i) > max) {
+			max = values.getValue(i);
 		}
 	}
+
 	return max;
 }

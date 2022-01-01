@@ -1,5 +1,7 @@
 #pragma once
 
+#include "arr_3d_data.hpp"
+
 #include <vector>
 #include <cassert>
 
@@ -21,22 +23,22 @@ struct CalcPoolsSettings {
 class CalcPoolsCLS
 {
 private:
-	float poolFuncAvg(std::vector<std::vector<std::vector<float>>>& values);
-	float poolFuncMax(std::vector<std::vector<std::vector<float>>>& values);
+	float poolFuncAvg(arr_3d_data& values);
+	float poolFuncMax(arr_3d_data& values);
 
 public:
 	CalcPoolsSettings settings;
 	
 	CalcPoolsCLS(CalcPoolsSettings settings = CalcPoolsSettings()) { this->settings = settings; }
 	
-	std::vector<std::vector<std::vector<float>>> run(
-		std::vector<std::vector<std::vector<float>>>& data,
+	arr_3d_data run(
+		arr_3d_data& data,
 		const int stride[2],
 		PoolFunctionTypes functionType
 		);
 
-	std::vector<std::vector<std::vector<float>>> run(
-		std::vector<std::vector<std::vector<float>>>& data
+	arr_3d_data run(
+		arr_3d_data& data
 		) {
 		return run(data, settings.stride, settings.functionType);
 	}

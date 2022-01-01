@@ -30,6 +30,9 @@
     <ClCompile Include="src\neuralnetwork\nodetypes\convolution\ConvStructureCLS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\neuralnetwork\nodetypes\convolution\arr_3d_data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\neuralnetwork\nodetypes\convolution\CalcLayerCLS.hpp">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\helperFunctions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\neuralnetwork\nodetypes\convolution\arr_3d_data.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
