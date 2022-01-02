@@ -39,41 +39,41 @@ int main()
     // -----------------------------------------------------------------------
     
     // instantiate the convolutional layer structure class
-    ConvStructureCLS convStructure(ConvStructureSettings{false});
+    ConvStructureCLS convLayer1(ConvStructureSettings{false});
     
     // first calc stage
-    convStructure.addStructureElement(CalcLayerCLS{});
-    CalcLayerSettings& calcLayerSettings = convStructure.calcLayerList[convStructure.calcLayerList.size() - 1].settings;
+    convLayer1.addStructureElement(CalcLayerCLS{});
+    CalcLayerSettings& calcLayerSettings = convLayer1.calcLayerList[convLayer1.calcLayerList.size() - 1].settings;
    
     calcLayerSettings.initialFilter = arr_3d_data::createRandomFilter(3, 3, 3);
     calcLayerSettings.compensateBorder = true;
     calcLayerSettings.compensateDepthBorder = false;
     
     // first activation stages
-    convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::RELU} });
-    convStructure.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::SIGMOID} });
+    convLayer1.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::RELU} });
+    convLayer1.addStructureElement(ActivationLayerCLS{ ActivationLayerSettings{ActivationFunctionTypes::SIGMOID} });
 
     // first pooling stage
-    convStructure.addStructureElement(CalcPoolsCLS{});
-    CalcPoolsSettings& pool1Settings = convStructure.calcPoolList[convStructure.calcPoolList.size() - 1].settings;
+    convLayer1.addStructureElement(CalcPoolsCLS{});
+    CalcPoolsSettings& pool1Settings = convLayer1.calcPoolList[convLayer1.calcPoolList.size() - 1].settings;
     int stride[3]{ 3, 3, 1 };
     pool1Settings.setStride(stride);
     
 
-    convStructure.printStructure();
+    convLayer1.printStructure();
     
     // running the neural network
     // -----------------------------------------------------------------------
     
-    convStructure.runConvStructure(img);
+    convLayer1.runConvLayer(img);
     
     for (int i = 0; i < 0; i++)
     {
         std::cout << "==============================================" << std::endl;
         std::cout << "GENERATION : " << i + 1 << std::endl;
         std::cout << "==============================================" << std::endl;
-        convStructure.mutateConvStructure((float)0.2);
-        convStructure.runConvStructure(img);
+        convLayer1.mutateConvStructure((float)0.2);
+        convLayer1.runConvLayer(img);
         std::cout << tempCalcScore(img) << std::endl;
     }
     imageHandler.saveImageFromVector((prjPath + relativeOutputPath + getCurrentTimeString() + ".png").c_str(), img);

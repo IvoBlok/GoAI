@@ -2,35 +2,13 @@
 #include "ConvStructureCLS.hpp"
 #include <cstring>
 
-void ConvStructureCLS::runConvStructure(arr_3d_data& data) {
+void ConvStructureCLS::runConvLayer(arr_3d_data& data) {
 	arr_3d_data dataHolderSubStep = data;
 	arr_3d_data sumHolder;
 
 	std::cout << std::endl << "===============================" << std::endl << "conv structure has started!" << std::endl;
 	// go over every structure step
 	// every step can contain multiple substeps to generate the data for the next step
-	/*
-	for (size_t i = 0; i < structure.size(); i++)
-	{
-		for (size_t j = 0; j < structure[i].size(); j++)
-		{
-			for (size_t k = 0; k < structure[i][j].size(); k++)
-			{
-				if (structure[i][j][k].layerType == ConvLayerTypes::CalcLayer) {
-					calcLayerList[structure[i][j][k].respectiveIndex].run(data);
-					if (settings.printOutput) { std::cout << "Layer type: CalcLayer" << std::endl; }
-				}
-				else if (structure[i][j][k].layerType == ConvLayerTypes::ActivationLayer) {
-					activationLayerList[structure[i][j][k].respectiveIndex].run(data);
-					if (settings.printOutput) { std::cout << "Layer type: ActivationLayer" << std::endl; }
-				}
-				else if (structure[i][j][k].layerType == ConvLayerTypes::CalcPools) {
-					calcPoolList[structure[i][j][k].respectiveIndex].run(data);
-					if (settings.printOutput) { std::cout << "Layer type: CalcPoolsLayer" << std::endl; }
-				}
-			}
-		}
-	}*/
 	
 	for (size_t i = 0; i < structure.size(); i++)
 	{

@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\neuralnetwork\nodetypes\hidden\HiddenCellCLS.cpp" />
+    <ClCompile Include="src\neuralnetwork\nodetypes\hidden\HiddenLayerCLS.cpp" />
+    <ClCompile Include="src\neuralnetwork\NeuralNetworkCLS.cpp" />
     <ClCompile Include="src\neuralnetwork\nodetypes\convolution\arr_3d_data.cpp" />
     <ClCompile Include="src\neuralnetwork\nodetypes\convolution\ConvStructureCLS.cpp" />
     <ClCompile Include="src\neuralnetwork\nodetypes\convolution\ActivationLayerCLS.cpp" />
@@ -27,6 +30,9 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\neuralnetwork\nodetypes\hidden\HiddenCellCLS.hpp" />
+    <ClInclude Include="src\neuralnetwork\nodetypes\hidden\HiddenLayerCLS.hpp" />
+    <ClInclude Include="src\neuralnetwork\NeuralNetworkCLS.hpp" />
     <ClInclude Include="src\neuralnetwork\nodetypes\convolution\arr_3d_data.hpp" />
     <ClInclude Include="src\helperFunctions.hpp" />
     <ClInclude Include="src\imageLoading\ImageHandlingCLS.hpp" />
@@ -36,6 +42,9 @@
     <ClInclude Include="src\neuralnetwork\nodetypes\convolution\ActivationLayerCLS.hpp" />
     <ClInclude Include="src\neuralnetwork\nodetypes\convolution\CalcPoolsCLS.hpp" />
     <ClInclude Include="src\neuralnetwork\nodetypes\convolution\CalcLayerCLS.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\README.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

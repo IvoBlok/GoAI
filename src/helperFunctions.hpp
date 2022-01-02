@@ -3,6 +3,8 @@
 
 #include <sstream>
 #include <vector>
+#include <random>
+#include <ctime>
 
 float tempCalcScore(arr_3d_data data) {
     float sum = 0;
@@ -31,4 +33,8 @@ std::string getProjectPath() {
 
 void initRandomnessSeed() {
     std::srand((unsigned int)time(NULL));
+}
+
+float randValueneg1to1() {
+    return ((float)(std::rand()) / (float)RAND_MAX) * 2 - 1;
 }
