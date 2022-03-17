@@ -7,7 +7,7 @@ Artificial Neural Network Playground
 Compiler: MSVC
 External files: STBI
 
-======================================
+=====================================
 
 structure setup steps:
  - in NeuralNetworkCLS you can to write a custom scoring function.
