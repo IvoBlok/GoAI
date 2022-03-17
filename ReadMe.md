@@ -1,5 +1,7 @@
 =============== README ===============
+
 Artificial Neural Network Playground
+
 =============== README ===============
 
 Compiler: MSVC
